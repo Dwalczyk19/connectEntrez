@@ -1,45 +1,49 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 30 12:19:06 2023
-
-@author: dwalz
-#handle = Entrez.esearch(db = "gene", term = ("(Homo sapiens[Organism] OR Homo sapiens[All Fields]) AND CD248[GENE]"))
-#Entrez.read(handle)
-#(("Homo sapiens"[Organism] OR Homo sapiens[All Fields]) AND CD248[All Fields]) AND alive[prop]
-"""
-
-#remeber python starts at 0 not 1
-import pandas as pd 
-import Bio
-from Bio import Entrez
-from Bio import SeqIO
-
 read = pd.read_excel("/home/dwalz/R/data/Human_genes_with_entrez_IDs060523.xlsx")
 read = pd.DataFrame(read)
 entrez_id = read["NEW-Entrez-ID"]
 gene_id = read["NEW-Gene-ID"]
 
-#for google 
-from google.colab import drive
-drive.mount("/content/drive")
+from ncbi.datasets.openapi import ApiClient as DatasetsApiClient
+from ncbi.datasets.openapi import ApiException as DatasetsApiException
+from ncbi.datasets import GeneApi as DatasetsGeneApi
 
-import os 
-path = "/content/drive/MyDrive/rna institue data/data/Human_genes_with_entrez_IDs060523.xlsx"
-df = pd.read_excel(path)
+# Provide your own gene ids as a list of integers
 
+def example_usage_of_api(gene_ids):
+    if len(gene_ids) == 0:
+        print("Please provide at least one gene-id")
+        return
 
-Entrez.email = "walczd3@rpi.edu"
+    with DatasetsApiClient() as api_client:
+        gene_api = DatasetsGeneApi(api_client)
 
-def get(entrez_id): 
-  handle = Entrez.efetch(db = "gene", id = "57124", rettype = "fasta", retmode = "text")
-  coin = handle.read().strip()
-  area = coin.split("\n")[4:6]
-  location = area[0].split("; ")[1].split(": ")[1] #first number references that its on chromosome 'x'
-  #get location and check if chromosome has already been mapped to save data
-  #apply map(func, list) to apply function to data 
-  #once sequence is found add it to dataframe with gene in col 1 & sequence in col 2 (or do this separately and just get sequence for now)
+        # Get just metadata
+        try:
+            gene_reply = gene_api.gene_metadata_by_id(gene_ids)
+            for gene in gene_reply.genes:
+                print(gene.gene.gene_id)
+        except DatasetsApiException as e:
+            print(f"Exception when calling GeneApi: {e}\n")
 
+        # Or, download a data package with FASTA files
+        try:
+            print("Begin download of data package ...")
+            gene_ds_download = gene_api.download_gene_package(
+                gene_ids, include_annotation_type=["FASTA_GENE"], _preload_content=False
+            )
+            gene_reply = gene_api.gene_metadata_by_id(gene_ids)
+            zipfile_name = "sequence_info.zip"
+
+            with open(zipfile_name, "wb") as f:
+                f.write(gene_ds_download.data)
+            print(f"Download completed -- see {zipfile_name}")
+
+        except DatasetsApiException as e:
+            print(f"Exception when calling GeneApi: {e}\n")
+            
+
+            
+example_usage_of_api(list(entrez_id))
 
 
 
