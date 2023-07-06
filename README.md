@@ -5,4 +5,4 @@ Trying to obtain Gene Sequences straight from Entrez IDs.
 
 Find efficient ways to parse through large diaries, look at sajacy repo for ideas
 - For genes with 2 repeats, use first repeat as gene code.
-- 
+- For genes with 3 repeats, use first repeat as gene code!!
