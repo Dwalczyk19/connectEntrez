@@ -4,13 +4,12 @@ library(coRdon)
 library(dplyr)
 library(stringr)
 
-file_path = "/home/dwalz/R/data/ncbi_dataset/data/gene.fna"
-
-reading = read.fasta(file_path)
+file_path = "~/sequence_info.zip"
+set <- unzip(file_path)[2]
+reading = read.fasta(set) #read.fasta(unzip("zipped.zip))
 
 #goal is to merge exons together from each 
-reading[1]
-
+reading[c(1,2)]
 gene <- c()
 for ( i in names(reading)) {
   string <- attr(reading[[i]], "Annot")
@@ -18,27 +17,22 @@ for ( i in names(reading)) {
   gene <- append(gene,split[2])
 }
 
+seq <- ""
+
+#seq <- gsub("[\r\n]", "", seq) #removes \n
+#which(unlist(strsplit(seq, split = "")) != unlist(strsplit(unL, split = "")))
+unL <- toupper(paste(unlist(reading[26]), collapse = ""))
+final <- data.frame( sequence = character(0))
+
 for ( x in unique(gene)) {
   check <- which(gene == x)
-  print(x)
-  print(check)
+  print(paste("Loading...", x))
+  exons2 <- toupper(paste(unlist(reading[check[1]]), collapse = ""))
+  final[x,] = exons2
   check <- c()
 }
 
 
-
-
-codonTable(DNAStringSet(paste(as.character(reading$`NC_060935.1:c66310697-66308147`), collapse = "")))
-
-
-
-
-# Quick examples
-# Using paste() function
-v <- c('A','B','C','D')
-print(v)
-print(paste(v,collapse=''))
-print(paste(v))
-
+write.csv(final, file = "entrez_seq.csv")
 
 
