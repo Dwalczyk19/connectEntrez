@@ -18,10 +18,13 @@ entrez_id = read["NEW-Entrez-ID"]
 gene_id = read["NEW-Gene-ID"]
 
 
-Entrez.email = "walczd3@rpi.edu"
+Entrez.email = str(input("Enter email for NCBI --> "))
+
 configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
 )
+
+#vary api
 configuration.api_key['ApiKeyAuthHeader'] = "9cbb475748fcce2a676126874b4fc0616f08"
 zipfile_name = "sequence_info.zip"
 
@@ -53,11 +56,12 @@ def example_usage_of_api(gene_ids):
 
 n = int(input("How many genes would you like to access, press 0 to quit --> "))
 if n > 0: 
-    example_usage_of_api(list(entrez_id)[:3])  #specify index before running, *1050 but use 1000 for simplicity, 12 times to retrieve the entire file. 11910 rows (nearly 12k)
+    example_usage_of_api(list(entrez_id)[:n])  #specify index before running, *1050 but use 1000 for simplicity, 12 times to retrieve the entire file. 11910 rows (nearly 12k)
 elif n == 0: 
     print("Finished...")
 else: 
     n = int(input("How many genes would you like to access, press 0 to quit --> "))
+    
     
 
 
