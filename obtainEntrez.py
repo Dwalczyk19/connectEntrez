@@ -25,7 +25,7 @@ configuration = ncbi.datasets.openapi.Configuration(
 )
 
 #vary api
-configuration.api_key['ApiKeyAuthHeader'] = "9cbb475748fcce2a676126874b4fc0616f08"
+configuration.api_key['ApiKeyAuthHeader'] = "blank"
 zipfile_name = "sequence_info.zip"
 
 def example_usage_of_api(gene_ids):
