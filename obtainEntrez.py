@@ -11,7 +11,7 @@ import regex as re
 
 
 # Provide your own gene ids as a list of integers
-read = pd.read_excel("/home/dwalz/R/data/Human_genes_with_entrez_IDs060523.xlsx")
+read = pd.read_excel("~/connectEntrez-main/data/Human_genes_with_entrez_IDs060523.xlsx")
 read = pd.DataFrame(read)
 entrez_id = read["NEW-Entrez-ID"]
 gene_id = read["NEW-Gene-ID"]
