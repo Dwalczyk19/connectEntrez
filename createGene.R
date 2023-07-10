@@ -27,12 +27,10 @@ final <- data.frame( sequence = character(0))
 for ( x in unique(gene)) {
   check <- which(gene == x)
   print(paste("Loading...", x))
-  exons2 <- toupper(paste(unlist(reading[check[1]]), collapse = ""))
+  exons2 <- toupper(paste(unlist(reading[check]), collapse = ""))
   final[x,] = exons2
   check <- c()
 }
 
 
-write.csv(final, file = "entrez_seq.csv")
-
-
+write.csv(final, file = "entrez_seq.csv") 
