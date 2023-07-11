@@ -5,6 +5,17 @@ Obtain Gene Sequences straight from Entrez IDs.
 * Enter your email prior to using.
 * Input the specified genes dataset or small list of genes prior to starting the package.
 
+### Python
+```
+pip install -r requirements.txt
+```
+
+### R
+```
+install.packages(c("seqinr", "stringr", "dplyr))
+```
+
+
 # Repo works in truncated steps: 
 - NCBI has a limit on gene ids per request
 - Find optimal truncated steps [10,50,100,etc.]
