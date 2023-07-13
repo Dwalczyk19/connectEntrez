@@ -20,7 +20,7 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
 )
 
-configuration.api_key['ApiKeyAuthHeader'] = '9cbb475748fcce2a676126874b4fc0616f08'
+configuration.api_key['ApiKeyAuthHeader'] = 'YOUR API KEY'
 
 Entrez.email = simpledialog.askstring(title = "Entrez Email", prompt = "Please enter your email for NCBI authentication")
     
@@ -111,7 +111,7 @@ def get_gene(gene_ids, mcheck):
                 sys.exit(f"Exception when calling GeneApi: {e}\n")
         
     
-get_gene(list(entrez_id[:1005]), mcheck = False)
+get_gene(list(entrez_id[:<ENTER YOUR VALUE>]), mcheck = False)
 
 
 
