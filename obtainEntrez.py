@@ -1,66 +1,142 @@
+import sys
 import ncbi.datasets.openapi    
 from ncbi.datasets.openapi.api import gene_api
 from ncbi.datasets.openapi import ApiClient as DatasetsApiClient
 from ncbi.datasets.openapi import ApiException as DatasetsApiException
 from ncbi.datasets import GeneApi as DatasetsGeneApi
-from ncbi.datasets.package import dataset
 from Bio import Entrez, SeqIO
 from numpy import array as arr
-import pandas as pd
-import regex as re 
+import pandas as pd 
+from tkinter import simpledialog
 
 
-# Provide your own gene ids as a list of integers
-read = pd.read_excel("~/connectEntrez-main/data/Human_genes_with_entrez_IDs060523.xlsx")
+read = pd.read_excel("~/data/Human_genes_with_entrez_IDs060523.xlsx")
 read = pd.DataFrame(read)
 entrez_id = read["NEW-Entrez-ID"]
 gene_id = read["NEW-Gene-ID"]
 
 
-Entrez.email = str(input("Enter email for NCBI --> "))
-
 configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
 )
 
-#vary api
-configuration.api_key['ApiKeyAuthHeader'] = "blank"
-zipfile_name = "sequence_info.zip"
+configuration.api_key['ApiKeyAuthHeader'] = '9cbb475748fcce2a676126874b4fc0616f08'
 
-def example_usage_of_api(gene_ids):
-    #if len(gene_ids) == 0:
-     #   print("Please provide at least one gene-id")
-      #  return
-
-    with DatasetsApiClient() as api_client:
-        gene_api = DatasetsGeneApi(api_client)
-
-        try:
-            print("Begin download of data package ...")
-            gene_ds_download = gene_api.download_gene_package(
-                gene_ids, include_annotation_type=["FASTA_CDS"], _preload_content=False   #FASTA_PROTEIN, FASTA_RNA, etc.
-            )
-            data = gene_ds_download.data
-           
-            #store = "ncbi_dataset/data/data_report.jsonl".join(str(data).split("ncbi_dataset/data/data_report.jsonl")[:2])
-            #print(store.decode("utf-8"))
-            
-            with open(zipfile_name, "wb") as f:
-                f.write(data)
-            print(f"Download completed -- see {zipfile_name}")
-            
-
-        except DatasetsApiException as e:
-            print(f"Exception when calling GeneApi: {e}\n")
-
-
-n = int(input("How many genes would you like to access, press 0 to quit --> "))
-if n > 0: 
-    example_usage_of_api(list(entrez_id)[:n])  #specify index before running, *1050 but use 1000 for simplicity, 12 times to retrieve the entire file. 11910 rows (nearly 12k)
-elif n == 0: 
-    print("Finished...")
-else: 
-    n = int(input("How many genes would you like to access, press 0 to quit --> "))
+Entrez.email = simpledialog.askstring(title = "Entrez Email", prompt = "Please enter your email for NCBI authentication")
     
+
+def get_gene(gene_ids, mcheck):
+    
+    if mcheck == False :
+        n = len(gene_ids)
+        L = []
+        
+        if n > 1000: 
+            if n % 1000 == 0: 
+                steps =int( n / 1000)
+                for i in range(1,steps+1):
+                    ct = i * 1000
+                    L.append((ct-1000,ct))
+                
+            else: 
+                steps = int(n / 1000)
+                rm = n % 1000
+                
+                for i in range(1,steps+1): 
+                    ct = i * 1000 
+                    L.append((ct-1000,ct))
+                    if i == steps: 
+                        L.append((ct, ct + rm))
+            
+            for items in L: 
+                num = f'{items[0], items[1]}'
+                zipfile_name = "gene_cds" + num + ".zip"
+                with DatasetsApiClient() as api_client:
+                    
+                    gene_api = DatasetsGeneApi(api_client)
+                    try:
+                        print("Starting download of...{}".format(zipfile_name))
+                        gene_dataset_download = gene_api.download_gene_package(
+                            gene_ids[int(items[0]):int(items[1])],
+                            include_annotation_type=["FASTA_CDS"],
+                            _preload_content=False,
+                        )
+                        
+                        with open(zipfile_name, "wb") as f:
+                            f.write(gene_dataset_download.data)
+                        print("Finished Downloading...")
+                    except DatasetsApiException as e:
+                        sys.exit(f"Exception when calling GeneApi: {e}\n")
+        else: 
+            
+                
+            
+            
+            
+            num = "(0-" + str(n) + ")"
+            zipfile_name = "gene_cds" + num + ".zip"
+            with DatasetsApiClient() as api_client:
+                
+                gene_api = DatasetsGeneApi(api_client)
+                try:
+                    print("Starting download of...{}".format(zipfile_name))
+                    gene_dataset_download = gene_api.download_gene_package(
+                        gene_ids,
+                        include_annotation_type=["FASTA_CDS"],
+                        _preload_content=False,
+                    )
+                    
+                    with open(zipfile_name, "wb") as f:
+                        f.write(gene_dataset_download.data)
+                    print("Finished Downloading...")
+                except DatasetsApiException as e:
+                    sys.exit(f"Exception when calling GeneApi: {e}\n")
+                    
+    else: 
+        zipfile_name = "gene_cds.zip"
+        with DatasetsApiClient() as api_client:
+            
+            gene_api = DatasetsGeneApi(api_client)
+            try:
+                print("Starting download of...{}".format(zipfile_name))
+                gene_dataset_download = gene_api.download_gene_package(
+                    gene_ids,
+                    include_annotation_type=["FASTA_CDS"],
+                    _preload_content=False,
+                )
+                
+                with open(zipfile_name, "wb") as f:
+                    f.write(gene_dataset_download.data)
+                print("Finished Downloading...")
+            except DatasetsApiException as e:
+                sys.exit(f"Exception when calling GeneApi: {e}\n")
+        
+        
+        
+
+
+get_gene(list(entrez_id[:1005]), mcheck = False)
+
+
+
+
+'''manual entry'''         
+gene_ids = []  #put ids in here
+check = 0
+while (check != -1): 
+    check = simpledialog.askinteger(title = "Initial Entrez ID", prompt = "\t\t\tEnter Entrez ID(s) for download. Press -1 to quit.\nIf your downloading a large number of IDs place them in a list and then use funciton get_gene")
+    gene_ids.append(check)
+    if check == -1:
+        if len(gene_ids) > 0 and gene_ids[0] != -1: 
+            gene_ids.remove(-1) 
+            get_gene(gene_ids, mcheck = "True")
+        else:
+            gene_ids = []
+            break
+    
+#Enter your manual values 
+gene_ids = []  
+get_gene(gene_ids, mcheck = True)
+
 
 
