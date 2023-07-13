@@ -125,7 +125,7 @@ while (check != -1):
     if check == -1:
         if len(gene_ids) > 0 and gene_ids[0] != -1: 
             gene_ids.remove(-1) 
-            get_gene(gene_ids, mcheck = "True")
+            get_gene(gene_ids, mcheck = True)
         else:
             gene_ids = []
             break
