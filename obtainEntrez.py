@@ -42,11 +42,15 @@ def get_gene(gene_ids, mcheck):
                 steps = int(n / 1000)
                 rm = n % 1000
                 
-                for i in range(1,steps+1): 
-                    ct = i * 1000 
-                    L.append((ct-1000,ct))
-                    if i == steps: 
-                        L.append((ct, ct + rm))
+                if steps == 1: 
+                    L.append((0,1000))
+                    L.append((1000,1000+rm))
+                else: 
+                    for i in range(1,steps+1): 
+                        ct = i * 1000 
+                        L.append((ct-1000,ct))
+                        if i == steps: 
+                            L.append((ct, ct + rm))
             
             for items in L: 
                 num = f'{items[0], items[1]}'
@@ -68,11 +72,6 @@ def get_gene(gene_ids, mcheck):
                     except DatasetsApiException as e:
                         sys.exit(f"Exception when calling GeneApi: {e}\n")
         else: 
-            
-                
-            
-            
-            
             num = "(0-" + str(n) + ")"
             zipfile_name = "gene_cds" + num + ".zip"
             with DatasetsApiClient() as api_client:
@@ -111,10 +110,7 @@ def get_gene(gene_ids, mcheck):
             except DatasetsApiException as e:
                 sys.exit(f"Exception when calling GeneApi: {e}\n")
         
-        
-        
-
-
+    
 get_gene(list(entrez_id[:1005]), mcheck = False)
 
 
@@ -137,6 +133,7 @@ while (check != -1):
 #Enter your manual values 
 gene_ids = []  
 get_gene(gene_ids, mcheck = True)
+
 
 
 
