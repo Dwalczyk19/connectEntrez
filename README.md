@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ### R
 ```
 install.packages(c("BiocManager", "seqinr", "stringr", "dplyr"))
-BiocManager::install(c("Biostrings", "coRdon"), force = TRUE)
+BiocManager::install(("Biostrings"), force = TRUE)
 ```
 * If installing from Ubuntu and having problems installing RCurl dependency, use command
 ```
