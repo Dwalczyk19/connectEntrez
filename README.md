@@ -30,5 +30,5 @@ sudo apt -y install libcurl4-openssl-dev
 # Repo works in truncated steps: 
 - NCBI has a limit on gene ids per request
 - Find optimal truncated steps [10,50,100,etc.]
-- Having problems with protobuf version 2.3 & its compatability with ncbi-pylib-datasets
+- Right now steps work in <= 1000. So if parsing through 10000 genes you'll get 10 files.
 ![image](https://github.com/Dwalczyk19/connectEntrez/assets/92831596/2131bc75-1c89-4b41-b30f-b13862e6b9b4)
