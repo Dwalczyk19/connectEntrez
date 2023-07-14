@@ -10,7 +10,7 @@ import pandas as pd
 from tkinter import simpledialog
 
 
-read = pd.read_excel("~/data/Human_genes_with_entrez_IDs060523.xlsx")
+read = pd.read_excel("~/data/Human_genes_with_entrez_IDs060523.xlsx") #switch this file with any excel file your interested in using (to switch to csv just use read_csv instead
 read = pd.DataFrame(read)
 entrez_id = read["NEW-Entrez-ID"]
 gene_id = read["NEW-Gene-ID"]
