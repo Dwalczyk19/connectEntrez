@@ -6,6 +6,7 @@ Obtain Gene Sequences straight from Entrez IDs.
 * Input the specified genes dataset or small list of genes prior to starting the package.
 * Use of virtual enviornment is recommended, but you don't have to.
   - This is due to problems with protobuf package 4.23.0 (if there are problems specify this package be installed in the requirments file)
+* Download Anaconda here: https://www.anaconda.com/download
 
 ### Python
 ```
