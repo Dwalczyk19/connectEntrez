@@ -21,6 +21,10 @@ pip install -r requirements.txt
 install.packages(c("BiocManager", "seqinr", "stringr", "dplyr"))
 BiocManager::install(c("Biostrings", "coRdon"), force = TRUE)
 ```
+* If installing from Ubuntu and having problems installing RCurl dependency, use command
+```
+sudo apt -y install libcurl4-openssl-dev
+```
 
 
 # Repo works in truncated steps: 
