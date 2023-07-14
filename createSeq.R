@@ -30,8 +30,6 @@ if (length(selected) > 1) {
   
   for ( x in unique(gene)) {
     check <- which(gene == x)
-    print(x)
-    print(check)
     print(paste("Loading...", x))
     exons2 <- toupper(paste(unlist(seqs[check]), collapse = ""))
     final[x,] = DNAStringSet(exons2)
