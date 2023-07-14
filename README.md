@@ -1,6 +1,8 @@
 # connectEntrez
 Obtain Gene Sequences straight from Entrez IDs.  
-
+* Works in two Steps:
+  - Get data from Python specified by the user.
+  - R parses it out and returns to you a single column file with gene names and their respective sequence
 * Please set up an NCBI account at https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
 * Enter your email prior to using.
 * Input the specified genes dataset or small list of genes prior to starting the package.
