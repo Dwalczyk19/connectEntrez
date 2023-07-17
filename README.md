@@ -28,6 +28,10 @@ BiocManager::install(("Biostrings"), force = TRUE)
 ```
 sudo apt -y install libcurl4-openssl-dev
 ```
+* If installing from Ubuntu and having problems with XML/Rentrez dependency, use command
+```
+sudo apt-get install libxml2-dev
+```
 
 
 # Repo works in truncated steps: 
