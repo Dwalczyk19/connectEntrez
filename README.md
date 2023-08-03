@@ -19,21 +19,6 @@ conda activate <ENV_NAME>
 pip install -r requirements.txt
 ```
 
-### R
-```
-install.packages(c("BiocManager", "seqinr", "stringr", "dplyr"))
-BiocManager::install(("Biostrings"), force = TRUE)
-```
-* If installing from Ubuntu and having problems installing RCurl dependency, use command
-```
-sudo apt -y install libcurl4-openssl-dev
-```
-* If installing from Ubuntu and having problems with XML/Rentrez dependency, use command
-```
-sudo apt-get install libxml2-dev
-```
-
-
 # Repo works in truncated steps: 
 - NCBI has a limit on gene ids per request
 - Find optimal truncated steps [10,50,100,etc.]
