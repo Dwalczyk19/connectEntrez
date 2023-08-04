@@ -36,7 +36,7 @@ if __name__ == "__main__":
         host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
     )
     
-    configuration.api_key['ApiKeyAuthHeader'] = '9cbb475748fcce2a676126874b4fc0616f08'
+    configuration.api_key['ApiKeyAuthHeader'] = '<your api key>'
     Entrez.email = simpledialog.askstring(title = "Entrez Email", prompt = "Please enter your email for NCBI authentication")
     
     '''pick n'''
