@@ -163,7 +163,7 @@ def geneCheck(gene_fna, rna_fna, home, i):
                 
         
         rna_df = rna_df.groupby("ID", as_index=False).first()
-        
+        rna_df = rna_df[["Transcript", "ID", "Name", "Sequence", "Length"]]
 
     with open(home + "/assembly" + str(i) + "/ncbi_dataset/data/gene.fna", "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
@@ -180,7 +180,7 @@ def geneCheck(gene_fna, rna_fna, home, i):
                 continue 
 
     gene_df = gene_df.groupby("ID", as_index = False).first()
-    
+    gene_df = gene_df[["Transcript", "ID", "Name", "Sequence", "Length"]]
     return pd.concat([gene_df, rna_df])
             
             
@@ -315,6 +315,8 @@ def findAssembly(L, home, gene_ids):  #convert files in L to something that can 
         t_df = pd.DataFrame(narray, columns = ["Transcript"])
         t_df.to_csv(home + "/assembly/ncbi_dataset/data/transcript.csv", index = False, header = True)
         
+    
+    
         #getting GRCh38.p14 assembly 
     complete[["ID", "Name", "Sequence"]].to_csv("Human-Entrez-IDs.csv", index = False)
     
