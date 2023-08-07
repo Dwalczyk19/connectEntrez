@@ -20,5 +20,5 @@ pip install -r requirements.txt
 # Repo works in truncated steps: 
 - NCBI has a limit on gene ids per request
 - Find optimal truncated steps [10,50,100,etc.]
-- Right now steps work in <= 1000. For e.g if parsing through 10000 genes you'll get 10 files.
+- Right now steps work in <= 1000. For e.g if parsing through 10000 genes, the script will create 10 files to concat into 1 final file.
 ![image](https://github.com/Dwalczyk19/connectEntrez/assets/92831596/2131bc75-1c89-4b41-b30f-b13862e6b9b4)
